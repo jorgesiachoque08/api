@@ -1,6 +1,9 @@
 <?php
 use Phalcon\DI\FactoryDefault;
 use Phalcon\Db\Adapter\Pdo\Mysql as DbAdapter;
+use Phalcon\Events\Manager as EventsManager;
+use Phalcon\Mvc\Dispatcher;
+
 $di = new FactoryDefault();
 /**
  * Shared configuration service
@@ -45,3 +48,22 @@ $di['db'] = function (){
     }
     return $connection;
 };
+
+$di->setShared(
+    'response',
+    function () {
+        $response = new \Phalcon\Http\Response();
+        $response->setContentType('application/json', 'utf-8');
+  
+        return $response;
+    }
+  );
+
+  $di->set('url', function() {
+    $url = new UrlResolver();
+    $config = $this->getConfig();
+    $url->setBaseUri($config->application->baseUri);
+    return $url;
+});
+
+

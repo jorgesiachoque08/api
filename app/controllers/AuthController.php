@@ -1,13 +1,27 @@
 <?php
-class AuthController extends ControllerBase {
-
-    public function onConstruct() {
-        parent::initialize();
-    }
+use \Firebase\JWT\JWT;
+use Phalcon\DI\FactoryDefault;
+class AuthController {
 
     public function loginAction(){
-        try{
-            $sql = "select * from users";
+        $user = array(
+            "id_usuario"=> 1,
+            "username"  => "jorge siachoque",
+        );
+
+        $getConfig = $this->getConfig();
+        return $getConfig;
+        $this->response->setJsonContent(array(
+            "status"  => 200,
+            "expira" =>3600,
+            "token" => JWT::encode($getConfig + $user, $this->getConfigApp()->key)
+        ));
+
+        //devolvemos un 200, todo ha ido bien
+        $this->response->setStatusCode(200, "OK");
+        $this->response->send();
+        /* try{
+            $sql = "select * from usuarios";
 
             //$data = $this->db->query($sql);;
             $data = $this->db->fetchAll($sql);
@@ -23,7 +37,7 @@ class AuthController extends ControllerBase {
                 "status" => "error",
                 "message" => $e->getMessage()
             ];
-        }
+        } */
     }
 
 }

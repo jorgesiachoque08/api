@@ -1,5 +1,5 @@
 <?php
-//require __DIR__ . '/../library/vendor/autoload.php';
+require __DIR__ . '/../library/vendor/autoload.php';
 use Phalcon\Loader;
 
 /**
@@ -9,7 +9,8 @@ $loader = new Loader();
 $loader->registerDirs(
     array(
         $config->application->modelsDir,
-        $config->application->controllersDir
+        $config->application->controllersDir,
+        $config->application->middlewareDir
     )
 )->register();
     

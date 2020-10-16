@@ -6,14 +6,19 @@
  */
 defined('BASE_PATH') || define('BASE_PATH', getenv('BASE_PATH') ?: realpath(dirname(__FILE__) . '/../..'));
 defined('APP_PATH') || define('APP_PATH', BASE_PATH . '/api/app');
+$tokenId    = base64_encode(random_bytes(32));
+$issuedAt   = time();
+$notBefore  = $issuedAt + 1;             //Adding 1 seconds
+$expire     = $notBefore + (60*60);            // Adding 10 seconds
+$serverName = $_SERVER['SERVER_NAME'];
 
 return new \Phalcon\Config([
     'database' => [
         'adapter'     => 'Mysql',
         'host'        => 'localhost',
         'username'    => 'root',
-        'password'    => '',
-        'dbname'      => 'pruebatecnica',
+        'password'    => 'jorgesiachoque08',
+        'dbname'      => 'db_negocios',
         'charset'     => 'utf8',
     ],
     'application' => [
@@ -24,8 +29,19 @@ return new \Phalcon\Config([
         'viewsDir'       => APP_PATH . '/views/',
         'pluginsDir'     => APP_PATH . '/plugins/',
         'libraryDir'     => APP_PATH . '/library/',
-        'cacheDir'       => BASE_PATH . '/cache/',
+        'cacheDir'       => APP_PATH . '/cache/',
+        'middlewareDir'  => APP_PATH . '/middleware/',
         'baseUri'        => '/',
     ],
-    'key' => '123456789QWERTYUIOPASDFGHJKLZXCVBNM'
+    'jwt' => [
+        "key"=>'123456789QWERTYUIOPASDFGHJKLZXCVBNM',
+        "data" => [
+            'iat'  => $issuedAt,         // Issued at: time when the token was generated
+            'jti'  => $tokenId,          // Json Token Id: an unique identifier for the token
+            'iss'  => $serverName,       // Issuer
+            'nbf'  => $notBefore,        // Not before
+            'exp'  => $expire            // Expire
+        ]
+
+    ]
 ]);
