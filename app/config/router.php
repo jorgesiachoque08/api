@@ -1,12 +1,10 @@
 <?php
 // Retrieves all robots
+$jsonController = new AuthController();
 $app->get(
     '/api/robots',
-    function() use ($app,$di) {
-      $phql = 'SELECT * FROM usuarios ';
-      $connection = $di->get('db');
-      $statement = $connection->query($phql);
-      echo json_encode($statement);
+    function() use ($jsonController) {
+      echo json_encode($jsonController->loginAction());
     }
 );
 
