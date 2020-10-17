@@ -30,18 +30,18 @@ return new \Phalcon\Config([
         'pluginsDir'     => APP_PATH . '/plugins/',
         'libraryDir'     => APP_PATH . '/library/',
         'cacheDir'       => APP_PATH . '/cache/',
-        'middlewareDir'  => APP_PATH . '/middleware/',
         'baseUri'        => '/',
     ],
     'jwt' => [
         "key"=>'123456789QWERTYUIOPASDFGHJKLZXCVBNM',
-        "data" => [
+        "data" => array(
             'iat'  => $issuedAt,         // Issued at: time when the token was generated
             'jti'  => $tokenId,          // Json Token Id: an unique identifier for the token
             'iss'  => $serverName,       // Issuer
             'nbf'  => $notBefore,        // Not before
-            'exp'  => $expire            // Expire
-        ]
+            'exp'  => $expire,            // Expire
+            'data'=> null
+        )
 
     ]
 ]);
